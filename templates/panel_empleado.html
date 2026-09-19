@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Empleado - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); background: rgba(18, 18, 18, 0.8);">
+<a href="{{ url_for('panel_empleado') }}">
+    <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px; width: auto;">
+</a>        
+        <!-- Contenedor para alinear los botones de la derecha -->
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <!-- Botón de Perfil -->
+            <a href="{{ url_for('perfil_empleado') }}" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 10px 20px; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.4); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+    <i class="fa-solid fa-user"></i> Mi Perfil
+</a>
+            
+            <!-- Botón de Cerrar Sesión -->
+            <a href="{{ url_for('logout') }}" style="background: #ef4444; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+        <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; color: #fff;">Hola, Asesor {{ usuario_activo }} 💼</h1>
+        <p style="color: #9ca3af; margin-bottom: 40px; font-size: 1.05rem;">Panel operativo para la gestión de rutinas de entrenamiento y atención a clientes.</p>
+
+     <!-- Tarjeta: Asignar Rutinas -->
+            <div style="background: rgba(18, 18, 18, 0.6); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; backdrop-filter: blur(10px);">
+                <div>
+                    <div style="color: #a855f7; font-size: 1.8rem; margin-bottom: 15px;">
+                        <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <h3 style="color: #fff; margin: 0 0 10px 0; font-size: 1.25rem; font-weight: 600;">Asignar Rutinas</h3>
+                    <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.5;">Revisa las solicitudes físicas de los clientes y actualiza sus planes de entrenamiento semanales.</p>
+                </div>
+                <div>
+                    <!-- AQUÍ ESTABA EL DETALLE: Agregamos la etiqueta <a> apuntando a empleado_rutinas -->
+                    <a href="{{ url_for('empleado_rutinas') }}" style="display: inline-block; background: #a855f7; color: white; padding: 10px 22px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 0.9rem; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); transition: all 0.3s ease;">
+                        Ver Rutinas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

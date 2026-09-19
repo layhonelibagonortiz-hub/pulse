@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Pedidos - PULSE</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Enlace al CSS estático -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0b0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior Unificada -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(10, 6, 20, 0.7); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(168, 85, 247, 0.2);">
+        <div style="display: flex; align-items: center;">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" style="height: 60px; width: auto; object-fit: contain;">
+            </a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="{{ url_for('index') }}" style="color: #9ca3af; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 10px 15px; border-radius: 20px; transition: color 0.3s ease;"><i class="fa-solid fa-house"></i> Panel</a>
+            <a href="{{ url_for('tienda') }}" style="color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; background: rgba(168, 85, 247, 0.2); padding: 10px 20px; border-radius: 25px; border: 1px solid rgba(168, 85, 247, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;"><i class="fa-solid fa-store"></i> Tienda</a>
+            <a href="{{ url_for('logout') }}" style="background: linear-gradient(90deg, #dc2626, #ef4444); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.85rem; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); transition: all 0.3s ease;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+        
+        <div style="margin-bottom: 25px;">
+            <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 8px;">Seguimiento de pedidos <span style="color: #a855f7;">📦</span></h1>
+            <p style="color: #9ca3af; font-size: 0.95rem; margin: 0;">Consulta el estado y progreso de tus pedidos en tiempo real.</p>
+        </div>
+
+        <!-- Filtros de Pedidos -->
+        <div style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
+            <button class="filtro-btn active" data-filter="todos" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);">Todos</button>
+            <button class="filtro-btn" data-filter="camino" style="background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); color: #9ca3af; padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; cursor: pointer; backdrop-filter: blur(10px);">En camino 🚚</button>
+            <button class="filtro-btn" data-filter="entregado" style="background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); color: #9ca3af; padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; cursor: pointer; backdrop-filter: blur(10px);">Entregados ✅</button>
+        </div>
+
+        <!-- LISTADO DINÁMICO DE PEDIDOS DESDE LA BASE DE DATOS -->
+        {% if pedidos %}
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                {% for pedido in pedidos %}
+                <div class="tarjeta-pedido" data-estado="{{ pedido.estado }}" style="background: rgba(15, 10, 25, 0.7); padding: 25px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); padding-bottom: 12px;">
+                        <div>
+                            <span style="color: #a855f7; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 3px;">PEDIDO #{{ pedido.codigo }}</span>
+                            <!-- Aquí se muestra el nombre real del producto o productos -->
+                            <h3 style="color: #fff; margin: 0; font-size: 1.1rem; font-weight: 600;">{{ pedido.nombre_producto }}</h3>
+                        </div>
+                        
+                        <!-- Badge dinámico de estado -->
+                        {% if pedido.estado == 'Cancelado' %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444;">❌ Cancelado</span>
+                        {% elif pedido.estado == 'Entregado' %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); color: #34d399;">✅ Entregado</span>
+                        {% else %}
+                            <span style="padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: rgba(234, 179, 8, 0.15); border: 1px solid rgba(234, 179, 8, 0.4); color: #facc15;">🚚 {{ pedido.estado }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.85rem; color: #9ca3af;">
+                        <div><strong style="color: #fff;">Fecha:</strong> {{ pedido.fecha }}</div>
+                        <div><strong style="color: #fff;">Total:</strong> ${{ pedido.total }} COP</div>
+                    </div>
+
+                    <!-- BOTÓN DE CANCELAR PEDIDO -->
+                    {% if pedido.estado in ['En preparación', 'En camino'] %}
+                    <div style="margin-top: 18px; display: flex; justify-content: flex-end; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px;">
+                        <form action="{{ url_for('cancelar_pedido', codigo_pedido=pedido.codigo) }}" method="POST">
+                            <button type="submit" onclick="return confirm('¿Estás seguro de que deseas cancelar el pedido #{{ pedido.codigo }}?');" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 8px 16px; border-radius: 12px; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">
+                                <i class="fa-solid fa-ban"></i> Cancelar Pedido
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- ESTADO VACÍO -->
+            <div id="estado-vacio" style="background: rgba(15, 10, 25, 0.7); padding: 50px 20px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); text-align: center;">
+                <p style="color: #9ca3af; font-size: 1.05rem; margin-bottom: 20px;">Aún no tienes ningún pedido registrado.</p>
+                <a href="{{ url_for('tienda') }}" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; padding: 12px 28px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); display: inline-block; transition: all 0.3s ease;">Ir a la Tienda a comprar</a>
+            </div>
+        {% endif %}
+
+    </main>
+
+<!-- Script de Interactividad para los filtros -->
+    <script>
+        const botonesFiltro = document.querySelectorAll('.filtro-btn');
+        const tarjetasPedido = document.querySelectorAll('.tarjeta-pedido');
+
+        botonesFiltro.forEach(boton => {
+            boton.addEventListener('click', () => {
+                // Cambiar estilo visual de los botones
+                botonesFiltro.forEach(b => {
+                    b.style.background = 'rgba(15, 10, 25, 0.7)';
+                    b.style.color = '#9ca3af';
+                    b.style.boxShadow = 'none';
+                    b.style.fontWeight = '500';
+                    b.style.border = '1px solid rgba(168, 85, 247, 0.3)';
+                });
+                boton.style.background = 'linear-gradient(90deg, #7e22ce, #a855f7)';
+                boton.style.color = 'white';
+                boton.style.boxShadow = '0 0 15px rgba(168, 85, 247, 0.4)';
+                boton.style.fontWeight = '600';
+                boton.style.border = 'none';
+
+                // Filtrar las tarjetas de pedidos
+                const filtro = boton.getAttribute('data-filter');
+
+                tarjetasPedido.forEach(tarjeta => {
+                    const estadoPedido = tarjeta.getAttribute('data-estado');
+                    
+                    if (filtro === 'todos') {
+                        tarjeta.style.display = 'block';
+                    } else if (filtro === 'camino') {
+                        // Muestra los que están en preparación o en camino
+                        if (estadoPedido === 'En preparación' || estadoPedido === 'En camino') {
+                            tarjeta.style.display = 'block';
+                        } else {
+                            tarjeta.style.display = 'none';
+                        }
+                    } else if (filtro === 'entregado') {
+                        // Muestra solo los entregados
+                        if (estadoPedido === 'Entregado') {
+                            tarjeta.style.display = 'block';
+                        } else {
+                            tarjeta.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

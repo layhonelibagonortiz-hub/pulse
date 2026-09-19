@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Rutinas - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); background: rgba(18, 18, 18, 0.8);">
+        <!-- Logo inteligente según el rol -->
+        {% if rol == 'admin' %}
+            <a href="{{ url_for('panel_admin') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px; width: auto;">
+            </a>
+        {% else %}
+            <a href="{{ url_for('panel_empleado') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px; width: auto;">
+            </a>
+        {% endif %}        
+       
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <!-- Botón de retorno inteligente según el rol -->
+            {% if rol == 'admin' %}
+                <a href="{{ url_for('panel_admin') }}" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.4); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Panel Admin
+                </a>
+            {% else %}
+                <a href="{{ url_for('panel_empleado') }}" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.4); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Panel
+                </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+        <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 10px;">Selecciona un Cliente 📋</h1>
+        <p style="color: #9ca3af; margin-bottom: 30px;">Elige el usuario al que deseas crear o modificar su plan de entrenamiento semanal.</p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            {% for cliente in clientes %}
+            <div style="background: rgba(18, 18, 18, 0.8); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fa-solid fa-dumbbell" style="color: #a855f7; font-size: 1.5rem;"></i>
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: #fff; font-size: 1.2rem;">{{ cliente.nombre }}</h3>
+                        <p style="margin: 0; color: #9ca3af; font-size: 0.9rem;">Usuario: @{{ cliente.usuario }} | Correo: {{ cliente.correo }}</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('editar_rutina', usuario_id=cliente.id) }}" style="background: #a855f7; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: background 0.3s;">
+                    <i class="fa-solid fa-dumbbell"></i> Gestionar Rutina
+                </a>
+            </div>
+            {% else %}
+            <p style="color: #9ca3af; text-align: center;">No hay clientes registrados en este momento.</p>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

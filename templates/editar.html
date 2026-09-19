@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif;">
+    <main class="hero-section" style="min-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+        <div class="hero-content" style="max-width: 480px; width: 100%; text-align: center; background: rgba(18, 18, 18, 0.95); padding: 40px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3);">
+            <h1 class="hero-title" style="font-size: 2rem; margin-bottom: 25px; color: #fff;">EDITAR USUARIO</h1>
+            
+            <form action="{{ url_for('editar_usuario', id=user[0]) }}" method="POST" style="display: flex; flex-direction: column; gap: 18px; text-align: left;">
+                
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="color: #9ca3af; font-size: 0.85rem;">Nombre</label>
+                    <input type="text" name="nombre" value="{{ user[1] }}" required style="padding: 10px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff; outline: none;">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="color: #9ca3af; font-size: 0.85rem;">Correo Electrónico</label>
+                    <input type="email" name="correo" value="{{ user[2] }}" required style="padding: 10px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff; outline: none;">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="color: #9ca3af; font-size: 0.85rem;">Teléfono</label>
+                    <input type="tel" name="telefono" value="{{ user[3] }}" required style="padding: 10px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff; outline: none;">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="color: #9ca3af; font-size: 0.85rem;">Usuario</label>
+                    <input type="text" name="usuario" value="{{ user[4] }}" required style="padding: 10px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff; outline: none;">
+                </div>
+
+                <!-- SELECTOR DE ROL CORREGIDO (user[6] y value="admin") -->
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="color: #9ca3af; font-size: 0.85rem;">Rol de Usuario</label>
+                    <select name="rol" required style="padding: 10px 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; color: #fff; outline: none;">
+                        <option value="cliente" {% if user[6] == 'cliente' %}selected{% endif %}>Cliente</option>
+                        <option value="empleado" {% if user[6] == 'empleado' %}selected{% endif %}>Empleado</option>
+                        <option value="admin" {% if user[6] == 'admin' %}selected{% endif %}>Administrador</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; margin-top: 10px; border: none; cursor: pointer; font-weight: 600;">GUARDAR CAMBIOS</button>
+            </form>
+
+            <p style="margin-top: 20px;"><a href="{{ url_for('perfil') }}" style="color: #9ca3af; text-decoration: underline;">Cancelar y volver</a></p>
+        </div>
+    </main>
+</body>
+</html>

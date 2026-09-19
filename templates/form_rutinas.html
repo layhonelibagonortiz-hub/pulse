@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutina Semanal - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); background: rgba(18, 18, 18, 0.8);">
+        <a href="{{ url_for('panel_empleado') }}">
+            <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px; width: auto;">
+        </a>        
+        
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="{{ url_for('empleado_rutinas') }}" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.4); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-users"></i> Ver los otros clientes
+            </a>
+
+            <a href="{{ url_for('index') }}" style="background: #3b82f6; color: #fff; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-house"></i> Volver al Inicio
+            </a>
+        </div>
+    </header>
+
+    <main style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
+        <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 5px;">Rutina para: <span style="color: #a855f7;">{{ cliente['nombre'] }}</span></h1>
+        <p style="color: #9ca3af; margin-bottom: 30px;">Configura los ejercicios y gestiona múltiples videos demostrativos para cada día de la semana.</p>
+
+        {% set dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] %}
+        
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            {% for dia in dias %}
+            <div style="background: rgba(18, 18, 18, 0.8); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 14px; padding: 20px; backdrop-filter: blur(10px);">
+                <label style="display: block; font-weight: 600; color: #a855f7; font-size: 1.1rem; margin-bottom: 15px;">
+                    <i class="fa-solid fa-calendar-day"></i> {{ dia }}
+                </label>
+                
+                <!-- 1. Formulario para actualizar bloques ya existentes de este día -->
+                {% if rutinas_guardadas.get(dia) %}
+                <form method="POST" enctype="multipart/form-data" style="margin-bottom: 15px;">
+                    <input type="hidden" name="accion" value="actualizar">
+                    
+                    {% for rutina in rutinas_guardadas[dia] %}
+                    <div style="background: rgba(13, 6, 20, 0.6); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-size: 0.85rem; color: #a855f7; font-weight: 600;">Bloque #{{ loop.index }}</span>
+                            <a href="{{ url_for('eliminar_bloque_rutina', bloque_id=rutina.id, usuario_id=cliente.id) }}" style="color: #ef4444; font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid fa-trash"></i> Eliminar este bloque
+                            </a>
+                        </div>
+
+                        <textarea name="ejercicios_{{ rutina.id }}" rows="3" style="width: 100%; background: #0d0614; border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 8px; color: #fff; padding: 10px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; resize: vertical; box-sizing: border-box; margin-bottom: 10px;">{{ rutina.ejercicios }}</textarea>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.85rem; color: #9ca3af;">
+                            <span>Video actual: <strong style="color: #fff;">{{ rutina.archivo_video or 'Ninguno asignado' }}</strong></span>
+                            <div>
+                                <label style="font-size: 0.8rem; color: #a855f7; display: block; margin-bottom: 2px;">Cambiar video:</label>
+                                <input type="file" name="video_{{ rutina.id }}" accept="video/mp4" style="color: #9ca3af; font-size: 0.85rem;">
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <button type="submit" style="background: #a855f7; color: white; border: none; padding: 10px 18px; border-radius: 12px; font-weight: 600; font-size: 0.9rem; cursor: pointer; box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios de {{ dia }}
+                    </button>
+                </form>
+                {% else %}
+                    <p style="color: #6b7280; font-size: 0.9rem; font-style: italic; margin-bottom: 15px;">No hay bloques de ejercicios configurados para este día.</p>
+                {% endif %}
+
+                <!-- 2. Formulario independiente para AGREGAR un nuevo bloque a este día específico -->
+                <form method="POST" enctype="multipart/form-data" style="border-top: 1px dashed rgba(168, 85, 247, 0.3); padding-top: 15px; margin-top: 10px;">
+                    <input type="hidden" name="accion" value="agregar_bloque">
+                    <input type="hidden" name="dia_seleccionado" value="{{ dia }}">
+                    
+                    <span style="font-size: 0.85rem; color: #a855f7; font-weight: 600; display: block; margin-bottom: 8px;">Agregar nuevo ejercicio/video para el {{ dia }}:</span>
+                    <textarea name="nuevo_ejercicio_{{ dia }}" rows="2" placeholder="Nuevos ejercicios para este bloque..." style="width: 100%; background: #0d0614; border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 8px; color: #fff; padding: 10px; font-family: 'Outfit', sans-serif; font-size: 0.9rem; resize: vertical; box-sizing: border-box; margin-bottom: 8px;"></textarea>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <input type="file" name="nuevo_video_{{ dia }}" accept="video/mp4" style="color: #9ca3af; font-size: 0.85rem;">
+                        <button type="submit" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.5); padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                            <i class="fa-solid fa-plus"></i> Añadir Bloque / Guardar Video
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

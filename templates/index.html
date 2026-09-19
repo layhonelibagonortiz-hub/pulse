@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSE</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Enlace al CSS estático -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+    <style>
+        /* Estilo para darles la misma animación interactiva de los cuadros de abajo */
+        .image-card-hover {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .image-card-hover:hover {
+            transform: translateY(-5px);
+            border-color: rgba(168, 85, 247, 0.9) !important;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.6) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="header">
+       <div class="logo-container">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo">
+            </a>
+        </div>
+        
+        {% if not usuario_activo %}
+            <nav class="nav-links">
+                <a href="{{ url_for('quienes_somos') }}">QUIÉNES SOMOS</a>
+                <a href="{{ url_for('mision') }}">MISIÓN</a>
+            </nav>
+        {% endif %}
+        
+        <div class="header-actions">
+            {% if usuario_activo %}
+                <!-- Botones superiores del panel de cliente (Incluye Recompensas, Mi Perfil, Carrito) -->
+                <a href="{{ url_for('recompensas') }}" class="btn-profile" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; border-color: rgba(168, 85, 247, 0.6); color: #a855f7;">
+                    <i class="fa-solid fa-gift"></i> Recompensas
+                </a>
+                <a href="{{ url_for('perfil') }}" class="btn-profile" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                    <i class="fa-solid fa-user"></i> Mi Perfil
+                </a>
+                <a href="{{ url_for('ver_carrito') }}" class="btn-profile" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                    <i class="fa-solid fa-cart-shopping"></i> Carrito
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn-primary" style="background: #ef4444; border: none; text-decoration: none;">
+                    Cerrar Sesión
+                </a>
+            {% else %}
+                <a href="{{ url_for('registro') }}" class="btn-primary">REGISTRATE</a>
+                <a href="{{ url_for('login') }}" class="btn-profile">INICIAR SESIÓN</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL (HERO) CON LAS 3 FOTOS HORIZONTALES -->
+    <main class="hero-section" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 40px 5%; gap: 30px; flex-wrap: wrap;">
+        
+        <!-- COLUMNA IZQUIERDA: Títulos y botones -->
+        <div class="hero-content" style="flex: 1; min-width: 300px; max-width: 450px;">
+            {% if usuario_activo %}
+                <!-- SALUDO DEL PANEL DE CLIENTE -->
+                <h1 class="hero-title" style="font-size: 2.5rem; margin-bottom: 10px;">
+                    Bienvenido, {{ usuario_activo }} ⚡
+                </h1>
+                <p class="hero-description" style="margin-bottom: 30px;">
+                    Tu espacio personal para gestionar entrenamientos, equipamiento y tus puntos de constancia.
+                </p>
+            {% else %}
+                <!-- VISTA PÚBLICA -->
+                <span class="hero-subtitle">TU MEJOR VERSIÓN EMPIEZA HOY.</span>
+                <h1 class="hero-title">ENTRENA.<br>SUPÉRATE.<br>TRASCIENDE.</h1>
+                <p class="hero-description">
+                    Pulse es más que una web deportiva.<br>
+                    Es tu entrenamiento, tu comunidad y tu impulso para llegar más lejos.
+                </p>
+                <div class="hero-buttons" style="margin-top: 20px;">
+                    <a href="{{ url_for('registro') }}" class="btn-primary">COMENZAR AHORA</a>
+                    <a href="{{ url_for('quienes_somos') }}" class="btn-profile">SABER MÁS</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- COLUMNA DERECHA: 3 CASILLAS HORIZONTALES CON ANIMACIÓN -->
+        <div style="flex: 1.2; display: flex; flex-direction: row; gap: 15px; min-width: 320px; justify-content: center;">
+            
+            <!-- Casilla 1 -->
+            <div class="image-card-hover" style="flex: 1; height: 220px; border-radius: 15px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.4); box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); background: rgba(20, 10, 30, 0.6);">
+                <img src="{{ url_for('static', filename='IMAGENES/imagen_index.png') }}" alt="Siluetas Deportivas Pulse" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Casilla 2 -->
+            <div class="image-card-hover" style="flex: 1; height: 220px; border-radius: 15px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.4); box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); background: rgba(20, 10, 30, 0.6);">
+                <img src="{{ url_for('static', filename='IMAGENES/imagen_index 2.jpg') }}" alt="Imagen Index 2" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Casilla 3 -->
+            <div class="image-card-hover" style="flex: 1; height: 220px; border-radius: 15px; overflow: hidden; border: 1px solid rgba(168, 85, 247, 0.4); box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); background: rgba(10, 5, 18, 0.9);">
+                <img src="{{ url_for('static', filename='IMAGENES/imagen_index 3.jpg') }}" alt="Imagen Index 3" style="width: 100%; height: 100%; object-fit: contain; padding: 5px;">
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- CUADROS / CARACTERÍSTICAS O PANEL DE ACCESOS -->
+    <section class="features-grid" style="padding: 20px 5% 50px 5%;">
+        {% if usuario_activo %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; width: 100%;">
+                <!-- TARJETA 1: TIENDA OFICIAL -->
+                <a href="{{ url_for('tienda') }}" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="feature-card" style="height: 100%; box-sizing: border-box; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fa-solid fa-store feature-icon" style="color: #a855f7;"></i>
+                        <h3>Tienda Oficial</h3>
+                        <p>Explora suplementos, indumentaria y adquiere lo que necesitas para tu rendimiento.</p>
+                        <div style="margin-top: 20px;">
+                            <span class="btn-primary" style="display: inline-block; padding: 8px 20px; font-size: 0.9rem;">Ir a la Tienda</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- TARJETA 2: TUS RUTINAS -->
+                <a href="{{ url_for('rutinas') }}" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="feature-card" style="height: 100%; box-sizing: border-box; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fa-solid fa-dumbbell feature-icon" style="color: #a855f7;"></i>
+                        <h3>Tus Rutinas</h3>
+                        <p>Consulta tus planes de entrenamiento semanales diseñados para maximizar tus resultados.</p>
+                        <div style="margin-top: 20px;">
+                            <span class="btn-primary" style="display: inline-block; padding: 8px 20px; font-size: 0.9rem;">Ver Rutinas</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- TARJETA 3: MIS PEDIDOS -->
+                <a href="{{ url_for('mis_pedidos') }}" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="feature-card" style="height: 100%; box-sizing: border-box; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fa-solid fa-box feature-icon" style="color: #a855f7;"></i>
+                        <h3>Mis Pedidos</h3>
+                        <p>Revisa el estado de tus compras y el historial de tus envíos.</p>
+                        <div style="margin-top: 20px;">
+                            <span class="btn-primary" style="display: inline-block; padding: 8px 20px; font-size: 0.9rem;">Ver Pedidos</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- TARJETA 4: CLUB DE RECOMPENSAS -->
+                <a href="{{ url_for('recompensas') }}" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="feature-card" style="height: 100%; box-sizing: border-box; cursor: pointer; transition: all 0.3s ease; border-color: rgba(168, 85, 247, 0.5);">
+                        <i class="fa-solid fa-gift feature-icon" style="color: #a855f7;"></i>
+                        <h3>Club de Recompensas</h3>
+                        <p>Canjea tus Pulse Coins acumulados por constancia por productos exclusivos.</p>
+                        <div style="margin-top: 20px;">
+                            <span class="btn-primary" style="display: inline-block; padding: 8px 20px; font-size: 0.9rem; background: linear-gradient(135deg, #a855f7, #9333ea);">Ver Recompensas</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% else %}
+            <!-- TARJETAS PÚBLICAS -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%;">
+                <div class="feature-card">
+                    <i class="fa-regular fa-file-lines feature-icon"></i>
+                    <h3>PLANES PERSONALIZADOS</h3>
+                    <p>Entrenamientos adaptados a ti y a tus objetivos.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-trophy feature-icon"></i>
+                    <h3>RETOS QUE MOTIVAN</h3>
+                    <p>Compite contigo y con otros. Supera tus límites.</p>
+                </div>
+                <div class="feature-card"> <i></i> 
+                    <i class="fa-solid fa-users feature-icon"></i>
+                    <h3>COMUNIDAD REAL</h3>
+                    <p>Conecta, comparte y crece con personas como tú.</p>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+
+    <!-- EQUIPO DE DESARROLLO (Solo se muestra si no está logueado) -->
+    {% if not usuario_activo %}
+    <section class="stats-bar" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; padding: 40px 20px;">
+        <div class="stat-item" style="text-align: center;">
+            <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 8px;">Dilan Cubillos</h3>
+            <p style="color: #a855f7; font-size: 0.85rem; letter-spacing: 1px;">DESARROLLADOR</p>
+        </div>
+        <div class="stat-item" style="text-align: center;">
+            <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 8px;">Santiago Correa</h3>
+            <p style="color: #a855f7; font-size: 0.85rem; letter-spacing: 1px;">DESARROLLADOR</p>
+        </div>
+        <div class="stat-item" style="text-align: center;">
+            <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 8px;">Jessica Hernández</h3>
+            <p style="color: #a855f7; font-size: 0.85rem; letter-spacing: 1px;">DESARROLLADORA</p>
+        </div>
+        <div class="stat-item" style="text-align: center;">
+            <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 8px;">Brayan Martínez</h3>
+            <p style="color: #a855f7; font-size: 0.85rem; letter-spacing: 1px;">DESARROLLADOR</p>
+        </div>
+    </section>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Cliente - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #0b0614; background-image: radial-gradient(circle at 50% 20%, #2b1055 0%, #0b0614 70%); min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(10, 6, 20, 0.7); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(168, 85, 247, 0.2);">
+        <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" style="height: 60px; width: auto; object-fit: contain;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <!-- Botón Mi Perfil en la barra superior -->
+<a href="{{ url_for('perfil') }}" style="color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; background: rgba(168, 85, 247, 0.2); padding: 10px 20px; border-radius: 25px; border: 1px solid rgba(168, 85, 247, 0.4); transition: all 0.3s ease;">👤 Mi Perfil</a>            <a href="{{ url_for('ver_carrito') }}" style="color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; background: rgba(168, 85, 247, 0.2); padding: 10px 20px; border-radius: 25px; border: 1px solid rgba(168, 85, 247, 0.4); transition: all 0.3s ease;">🛒 Carrito</a>
+            <a href="{{ url_for('logout') }}" style="background: linear-gradient(90deg, #dc2626, #ef4444); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.85rem; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); transition: all 0.3s ease;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+        
+        <!-- Bienvenida -->
+        <div style="margin-bottom: 40px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px;">
+                Bienvenido, {{ usuario_activo }} <span style="color: #a855f7;">⚡</span>
+            </h1>
+            <p style="color: #9ca3af; font-size: 1rem; margin: 0;">Tu espacio personal para gestionar entrenamientos y equipamiento.</p>
+        </div>
+
+        <!-- Cuadrícula de Opciones (Solo 3 tarjetas limpias) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+            
+            <!-- Tarjeta Tienda Oficial -->
+            <div style="background: rgba(15, 10, 25, 0.7); padding: 30px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3 style="color: #a855f7; margin: 0 0 12px 0; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                        🛍️ Tienda Oficial
+                    </h3>
+                    <p style="color: #9ca3af; font-size: 0.95rem; margin: 0 0 25px 0; line-height: 1.5;">
+                        Explora suplementos, indumentaria y adquiere lo que necesitas para tu rendimiento.
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ url_for('tienda') }}" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); display: inline-block; transition: transform 0.3s ease;">Ir a la Tienda</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Tus Rutinas -->
+            <div style="background: rgba(15, 10, 25, 0.7); padding: 30px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3 style="color: #a855f7; margin: 0 0 12px 0; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                        💪 Tus Rutinas
+                    </h3>
+                    <p style="color: #9ca3af; font-size: 0.95rem; margin: 0 0 25px 0; line-height: 1.5;">
+                        Consulta tus planes de entrenamiento semanales diseñados para maximizar tus resultados.
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ url_for('rutinas') }}" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); display: inline-block; transition: transform 0.3s ease;">Ver Rutinas</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Mis Pedidos -->
+            <div style="background: rgba(15, 10, 25, 0.7); padding: 30px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3 style="color: #a855f7; margin: 0 0 12px 0; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                        📦 Mis Pedidos
+                    </h3>
+                    <p style="color: #9ca3af; font-size: 0.95rem; margin: 0 0 25px 0; line-height: 1.5;">
+                        Revisa el estado de tus compras y el historial de tus envíos.
+                    </p>
+                </div>
+                <div>
+                    <a href="{{ url_for('mis_pedidos') }}" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.9rem; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); display: inline-block; transition: transform 0.3s ease;">Ver Pedidos</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

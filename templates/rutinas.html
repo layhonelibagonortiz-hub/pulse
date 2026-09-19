@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutinas Avanzadas - PULSE</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Enlace al CSS estático -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0b0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior Unificada -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(10, 6, 20, 0.7); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(168, 85, 247, 0.2);">
+        <div style="display: flex; align-items: center;">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" style="height: 60px; width: auto; object-fit: contain;">
+            </a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="{{ url_for('index') }}" style="color: #9ca3af; text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 10px 15px; border-radius: 20px; transition: color 0.3s ease;"><i class="fa-solid fa-house"></i> Panel</a>
+            <a href="{{ url_for('tienda') }}" style="color: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; background: rgba(168, 85, 247, 0.2); padding: 10px 20px; border-radius: 25px; border: 1px solid rgba(168, 85, 247, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;"><i class="fa-solid fa-store"></i> Tienda</a>
+            <a href="{{ url_for('logout') }}" style="background: linear-gradient(90deg, #dc2626, #ef4444); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 0.85rem; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); transition: all 0.3s ease;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        
+        <!-- Columna Izquierda: Plan del Día Actual -->
+        <div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 8px;">Mis rutinas <span style="color: #a855f7;">🏋️‍♂️</span></h1>
+            <p style="color: #9ca3af; font-size: 0.95rem; margin-bottom: 25px;">Sigue y evoluciona tus entrenamientos al máximo nivel.</p>
+
+            <!-- SECCIÓN: Rutina de Hoy -->
+            <div style="background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 16px; padding: 25px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); padding-bottom: 15px;">
+                    <h3 style="color: #fff; font-size: 1.3rem; margin: 0; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-calendar-days" style="color: #a855f7;"></i> Tu Rutina de Hoy: <span style="color: #a855f7;">{{ dia_actual }}</span>
+                    </h3>
+                    <span style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid rgba(168, 85, 247, 0.3);">Día Activo</span>
+                </div>
+
+                {% if rutinas_dia %}
+                    <div style="display: flex; flex-direction: column; gap: 25px;">
+                        {% for rutina in rutinas_dia %}
+                            <!-- CUADRO DINÁMICO DE LA RUTINA -->
+                            <div style="background: rgba(10, 6, 20, 0.85); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 14px; padding: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.4);">
+                                
+                                <!-- Detección segura del video (apuntando a static/videos/) -->
+                                {% set vid = rutina.archivo_video if rutina.archivo_video is defined else (rutina[2] if rutina|length > 2 else None) %}
+                                {% if vid %}
+                                <div style="width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 15px; background: #000; border: 1px solid rgba(168, 85, 247, 0.3);">
+                                    <video controls preload="auto" style="width: 100%; display: block; max-height: 320px; object-fit: contain; background: #000;">
+                                        <source src="{{ url_for('static', filename='videos/' + vid) }}" type="video/mp4">
+                                        Tu navegador no soporta videos HTML5.
+                                    </video>
+                                </div>
+                                {% endif %}
+
+                                <!-- Detección segura de los ejercicios -->
+                                {% set ejer = rutina.ejercicios if rutina.ejercicios is defined else (rutina[1] if rutina|length > 1 else None) %}
+                                {% if ejer %}
+                                <div style="background: rgba(10, 6, 20, 0.6); padding: 20px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.2);">
+                                    <h4 style="color: #a855f7; margin-top: 0; margin-bottom: 10px; font-size: 1rem;"><i class="fa-solid fa-dumbbell"></i> Ejercicios Asignados:</h4>
+                                    <p style="color: #d1d5db; font-size: 1rem; margin: 0; white-space: pre-line; line-height: 1.6;">
+                                        {{ ejer }}
+                                    </p>
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div style="text-align: center; padding: 40px 0; color: #9ca3af;">
+                        <i class="fa-solid fa-mug-hot" style="font-size: 3rem; color: #a855f7; margin-bottom: 15px;"></i>
+                        <p style="font-size: 1.1rem; margin: 0;">¡Día de descanso! No hay rutina configurada para hoy {{ dia_actual }}.</p>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Resumen del Programa y Estadísticas -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- Resumen Semanal -->
+            <div style="background: rgba(15, 10, 25, 0.7); padding: 25px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                <h3 style="color: #a855f7; margin-top: 0; font-size: 1.1rem; font-weight: 700;">Resumen del programa 📊</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div style="background: rgba(10, 6, 20, 0.6); padding: 15px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <span style="color: #9ca3af; font-size: 0.75rem; font-weight: 600; display: block; margin-bottom: 5px;">Entrenamientos</span>
+                        <strong style="font-size: 1.3rem; color: #fff;">4 / 5</strong>
+                    </div>
+                    <div style="background: rgba(10, 6, 20, 0.6); padding: 15px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <span style="color: #9ca3af; font-size: 0.75rem; font-weight: 600; display: block; margin-bottom: 5px;">Calorías</span>
+                        <strong style="font-size: 1.1rem; color: #a855f7;">2,450 kcal</strong>
+                    </div>
+                </div>
+
+                <!-- Días de la semana -->
+                <p style="color: #9ca3af; font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">Esta semana:</p>
+                <div style="display: flex; justify-content: space-between; text-align: center; font-size: 0.75rem; color: #9ca3af; font-weight: 600;">
+                    <div><span style="display: block; width: 28px; height: 28px; background: #a855f7; color: white; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);">✓</span>LUN</div>
+                    <div><span style="display: block; width: 28px; height: 28px; background: #a855f7; color: white; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);">✓</span>MAR</div>
+                    <div><span style="display: block; width: 28px; height: 28px; background: #1f2937; color: #6b7280; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto;">-</span>MIÉ</div>
+                    <div><span style="display: block; width: 28px; height: 28px; background: #a855f7; color: white; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);">✓</span>JUE</div>
+                    <div><span style="display: block; width: 28px; height: 28px; background: #a855f7; color: white; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);">✓</span>VIE</div>
+                    <div><span style="display: block; width: 28px; height: 28px; background: #a855f7; color: white; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);">✓</span>SÁB</div>
+                    <div><span style="display: block; width: 28px; height: 28px; background: #1f2937; color: #6b7280; border-radius: 50%; line-height: 28px; margin: 0 auto 4px auto;">-</span>DOM</div>
+                </div>
+            </div>
+
+            <!-- Estadísticas de la rutina -->
+            <div style="background: rgba(15, 10, 25, 0.7); padding: 25px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.3); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                <h3 style="color: #a855f7; margin-top: 0; font-size: 1.1rem; font-weight: 700;">Estadísticas ⚡</h3>
+                <p style="color: #9ca3af; font-size: 0.85rem; margin-bottom: 5px;">Volumen total levantado:</p>
+                <h4 style="color: #fff; margin: 0 0 20px 0; font-size: 1.4rem; font-weight: 800;">12,540 kg <span style="font-size: 0.8rem; color: #34d399; font-weight: 600;">(+12%)</span></h4>
+                <p style="color: #9ca3af; font-size: 0.85rem; margin-bottom: 5px;">Tiempo promedio:</p>
+                <h4 style="color: #fff; margin: 0; font-size: 1.4rem; font-weight: 800;">4h 25m</h4>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

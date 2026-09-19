@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamientos - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); background: rgba(18, 18, 18, 0.8);">
+        <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px; width: auto;">
+        <div>
+            <a href="{{ url_for('tienda') }}" style="color: #fff; text-decoration: none; margin-right: 20px; font-weight: 500;">Tienda</a>
+            <a href="{{ url_for('panel_cliente') }}" style="color: #fff; text-decoration: none; margin-right: 20px; font-weight: 500;">Mi Panel</a>
+            <a href="{{ url_for('logout') }}" style="background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+        
+        <!-- Tarjeta de Bienvenida Dinámica -->
+        <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(18, 18, 18, 0.9)); border: 1px solid rgba(168, 85, 247, 0.4); padding: 30px; border-radius: 16px; margin-bottom: 30px;">
+            <h1 style="font-size: 2.2rem; margin: 0 0 10px 0; color: #fff;">Rutina para: <span style="color: #a855f7;">{{ deporte }}</span> ⚡</h1>
+            <p style="color: #d1d5db; margin: 0; font-size: 1.05rem;">Plan de entrenamiento optimizado según tus respuestas en la encuesta para maximizar tu rendimiento físico.</p>
+        </div>
+
+        <!-- Secciones de Ejercicios -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+            
+            <div style="background: rgba(18, 18, 18, 0.95); padding: 25px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                <h3 style="color: #a855f7; margin-top: 0; font-size: 1.2rem;">🔥 Calentamiento Específico</h3>
+                <ul style="color: #9ca3af; padding-left: 20px; line-height: 1.6; margin-bottom: 0;">
+                    <li>Movilidad articular de hombros y rodillas (10 min).</li>
+                    <li>Saltos suaves en puntas de pie para activación pliométrica.</li>
+                    <li>Estiramientos dinámicos de tren inferior y superior.</li>
+                </ul>
+            </div>
+
+            <div style="background: rgba(18, 18, 18, 0.95); padding: 25px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                <h3 style="color: #a855f7; margin-top: 0; font-size: 1.2rem;">💪 Bloque de Fuerza & Potencia</h3>
+                <ul style="color: #9ca3af; padding-left: 20px; line-height: 1.6; margin-bottom: 0;">
+                    <li>Sentadillas con salto explosivo (4 series de 10 repeticiones).</li>
+                    <li>Plancha abdominal isométrica (3 series de 45 segundos).</li>
+                    <li>Zancadas alternadas con peso corporal (3 series por pierna).</li>
+                </ul>
+            </div>
+
+            <div style="background: rgba(18, 18, 18, 0.95); padding: 25px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                <h3 style="color: #a855f7; margin-top: 0; font-size: 1.2rem;">🧊 Enfriamiento y Recuperación</h3>
+                <ul style="color: #9ca3af; padding-left: 20px; line-height: 1.6; margin-bottom: 0;">
+                    <li>Ejercicios de respiración profunda y controlada (5 min).</li>
+                    <li>Estiramientos estáticos enfocados en cuádriceps e isquiotibiales.</li>
+                    <li>Hidratación recomendada con electrolitos post-entrenamiento.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Botón de acción -->
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="{{ url_for('tienda') }}" style="background: #a855f7; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block;">Ver Suplementos Recomendados 🛍️</a>
+        </div>
+
+    </main>
+
+</body>
+</html>

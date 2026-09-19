@@ -1,0 +1,768 @@
+/* ==========================================================
+   ESTILOS GENERALES Y FONDO DE LA PÁGINA
+   ========================================================== */
+body {
+    background: linear-gradient(rgba(4, 2, 10, 0.5), rgba(4, 2, 10, 0.6)), 
+                url('imagenes/fondo.jpg') no-repeat center center fixed;
+    background-size: 130% auto; /* Fondo más alejado y amplio */
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   HEADER / NAVEGACIÓN
+   ========================================================== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(10, 6, 20, 0.7);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo {
+    height: 70px; 
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #9ca3af;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease !important;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #ffffff;
+    transform: translateY(-2px);
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-icon, .notification-icon {
+    color: #9ca3af;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.search-icon:hover, .notification-icon:hover {
+    color: #ffffff;
+}
+
+.notification-wrapper {
+    position: relative;
+}
+
+.badge-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #a855f7;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   BOTONES
+   ========================================================== */
+.btn-primary {
+    background: linear-gradient(90deg, #7e22ce, #a855f7);
+    color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.7) !important;
+}
+
+.btn-profile {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease !important;
+    display: inline-block;
+}
+
+.btn-profile:hover {
+    transform: translateY(-3px) !important;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5) !important;
+    border-color: #a855f7;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   HERO SECTION
+   ========================================================== */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 50px;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 600px;
+    z-index: 2;
+}
+
+.hero-subtitle {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.hero-title {
+    font-size: 3.8rem;
+    font-weight: 800;
+    line-height: 1.05;
+    margin: 15px 0 20px 0;
+    background: linear-gradient(180deg, #ffffff 40%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+    color: #9ca3af;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* WIDGET DE PULSO */
+.pulse-widget {
+    background: rgba(15, 10, 25, 0.8);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    padding: 30px;
+    border-radius: 20px;
+    width: 280px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.pulse-widget:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.45) !important;
+    border-color: rgba(168, 85, 247, 0.7);
+}
+
+.pulse-label {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pulse-data h2 {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    font-weight: 800;
+}
+
+.pulse-data .unit {
+    font-size: 1rem;
+    color: #a855f7;
+    font-weight: 600;
+}
+
+.waveform {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 15px;
+    height: 25px;
+}
+
+.waveform span {
+    flex: 1;
+    background-color: #a855f7;
+    height: 40%;
+    border-radius: 2px;
+}
+
+.waveform span:nth-child(3), .waveform span:nth-child(4) {
+    height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CARACTERÍSTICAS PRINCIPALES
+   ========================================================== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 50px;
+    margin-bottom: 60px;
+    transition: all 0.4s ease-in-out;
+}
+
+.feature-card {
+    background: rgba(15, 10, 25, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    /* Se eliminó la animación de aparición y los delay */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 12px 30px rgba(168, 85, 247, 0.4) !important;
+    border-color: rgba(168, 85, 247, 0.6);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    color: #a855f7;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   SECCIÓN: ELIGE TU CAMINO
+   ========================================================== */
+.path-section {
+    padding: 0 50px;
+    margin-bottom: 60px;
+}
+
+.path-header {
+    margin-bottom: 30px;
+}
+
+.section-tag {
+    color: #a855f7;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.path-header h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 5px 0 0 0;
+}
+
+.path-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.path-card {
+    height: 280px;
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.path-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 15px 35px rgba(168, 85, 247, 0.5) !important;
+    border-color: rgba(168, 85, 247, 0.7);
+}
+
+.path-overlay {
+    background: linear-gradient(to top, rgba(5, 3, 10, 0.9), transparent);
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.path-overlay h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.path-overlay span {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+.tag-popular {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #7e22ce;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+.stars {
+    color: #facc15;
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   ESTADÍSTICAS FOOTER (SIN MOVIMIENTO NI ANIMACIÓN)
+   ========================================================== */
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    background: rgba(10, 6, 20, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 50px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.stat-item {
+    padding: 15px;
+    border-radius: 12px;
+    /* Quitamos cualquier transición o movimiento al pasar el mouse */
+}
+
+.stat-item:hover {
+    /* Al pasar el mouse ya no se levanta ni cambia de posición */
+    transform: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    border: none;
+}
+
+.stat-item h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+}
+
+.stat-item p {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.stat-item .gold {
+    color: #facc15;
+}
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   DISEÑO RESPONSIVO (PARA PANTALLAS PEQUEÑAS Y TABLETS)
+   ========================================================== */
+@media (max-width: 1024px) {
+    /* Ajustar los espacios del header */
+    .header {
+        padding: 15px 20px;
+    }
+    
+    .nav-links {
+        gap: 15px; /* Acercar un poco los links del menú */
+    }
+
+    /* Ajustar los márgenes generales de las secciones */
+    .hero-section, .features-grid, .path-section, .stats-bar {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Cambiar la sección Hero a columna si falta espacio */
+    .hero-section {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .pulse-widget {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    /* Convertir las 3 tarjetas de características a 1 sola columna */
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Convertir las tarjetas de caminos a 2 columnas en vez de 4 */
+    .path-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Convertir la barra de estadísticas a 2 columnas */
+    .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Ajustar el fondo para que no se deforme en pantallas medianas y chicas */
+@media (max-width: 1200px) {
+    body {
+        background-size: cover !important; /* Cambia a cover para que llene la pantalla sin cortarse */
+        background-attachment: scroll; /* Mejora el rendimiento en pantallas pequeñas */
+    }
+}
+
+/* Ajustes específicos para cuando divides la pantalla o usas tablets/celulares */
+@media (max-width: 1024px) {
+    .header {
+        padding: 15px 20px;
+    }
+    
+    .nav-links {
+        gap: 15px;
+    }
+
+    .hero-section, .features-grid, .path-section, .stats-bar {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Ordenar el Hero en columna y centrarlo */
+    .hero-section {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    /* Reducir el tamaño gigante del título para que no se amontone */
+    .hero-title {
+        font-size: 2.5rem !important; 
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .pulse-widget {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ==========================================================
+   REJILLAS FLUIDAS Y SUAVES (RESPONSIVE SIN SALTOS BRUSCOS)
+   ========================================================== */
+
+/* Características principales */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 50px;
+    margin-bottom: 60px;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Tarjetas de "Elige tu camino" */
+.path-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Barra de estadísticas */
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    background: rgba(10, 6, 20, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 50px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease-in-out;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   TRANSICIÓN SUAVE GENERAL Y ADAPTACIÓN GRADUAL
+   ========================================================== */
+* {
+    transition: padding 0.3s ease, margin 0.3s ease;
+}
+
+/* Ajuste fluido para la sección Hero cuando la pantalla se reduce */
+@media (max-width: 1024px) {
+    .header {
+        padding: 15px 30px;
+    }
+
+    .hero-section {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+        padding: 40px 30px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .pulse-widget {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Oculta el menú clásico en pantallas muy chicas (puedes agregar menú hamburguesa luego si deseas) */
+    }
+
+    .header {
+        padding: 15px 20px;
+    }
+
+    .hero-section, .features-grid, .path-section, .stats-bar {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+
+/* --- ANIMACIONES DE TRANSICIÓN ENTRE PÁGINAS --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplica la animación automáticamente al cuerpo o contenedor principal de todas tus vistas */
+body {
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Efecto suave para los botones al pasar el cursor */
+button, .btn-primary, .btn-profile, a {
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover, .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+}

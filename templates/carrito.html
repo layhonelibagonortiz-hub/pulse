@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); background: rgba(18, 18, 18, 0.8);">
+        <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px; width: auto;">        <div>
+            <a href="{{ url_for('tienda') }}" style="color: #fff; text-decoration: none; margin-right: 20px; font-weight: 500;">Volver a la Tienda</a>
+            <a href="{{ url_for('logout') }}" style="background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 900px; margin: 40px auto; padding: 0 20px;">
+        <h1 style="font-size: 2.2rem; margin-bottom: 10px;">Carrito de Compras 🛒</h1>
+        <p style="color: #9ca3af; margin-bottom: 30px;">Revisa los artículos seleccionados antes de procesar tu pedido.</p>
+
+        {% if items_carrito %}
+            <div style="background: rgba(18, 18, 18, 0.95); border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.3); overflow: hidden; margin-bottom: 30px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(168, 85, 247, 0.2); color: #a855f7; font-size: 0.9rem;">
+                            <th style="padding: 15px 20px;">Producto</th>
+                            <th style="padding: 15px 20px;">Precio Unitario</th>
+                            <th style="padding: 15px 20px; text-align: center;">Cantidad</th>
+                            <th style="padding: 15px 20px;">Subtotal</th>
+                            <th style="padding: 15px 20px; text-align: center;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items_carrito %}
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <td style="padding: 15px 20px; font-weight: 500;">{{ item[1] }}</td>
+                            
+                            <!-- PRECIO UNITARIO -->
+                            <td style="padding: 15px 20px; color: #9ca3af;">
+                                {{ item[2] }}
+                            </td>
+                            
+                            <!-- CONTROL DE CANTIDAD (+ y -) -->
+                            <td style="padding: 15px 20px; text-align: center;">
+                                <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(168, 85, 247, 0.1); padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                                    <form action="{{ url_for('disminuir_cantidad', item_id=item[0]) }}" method="POST" style="margin: 0; display: inline;">
+                                        <button type="submit" style="background: transparent; color: #a855f7; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; padding: 0 4px;">-</button>
+                                    </form>
+                                    <span style="font-weight: 600; min-width: 15px; text-align: center;">{{ item[3] }}</span>
+                                    <form action="{{ url_for('aumentar_cantidad', item_id=item[0]) }}" method="POST" style="margin: 0; display: inline;">
+                                        <button type="submit" style="background: transparent; color: #a855f7; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; padding: 0 4px;">+</button>
+                                    </form>
+                                </div>
+                            </td>
+                            
+                            <!-- SUBTOTAL -->
+                            <td style="padding: 15px 20px; color: #a855f7; font-weight: 600;">
+                                {{ item[4] }}
+                            </td>
+
+                            <td style="padding: 15px 20px; text-align: center;">
+                                <form action="{{ url_for('eliminar_item', item_id=item[0]) }}" method="POST" style="margin: 0;">
+                                    <button type="submit" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.3s ease;">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BOTÓN DE FINALIZAR COMPRA CONECTADO A MYSQL -->
+            <div style="text-align: right;">
+                <form action="{{ url_for('finalizar_compra') }}" method="POST" style="display: inline-block; margin: 0;">
+                    <button type="submit" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; padding: 12px 25px; border-radius: 8px; border: none; text-decoration: none; font-weight: 600; cursor: pointer; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);">
+                        Finalizar Compra
+                    </button>
+                </form>
+            </div>
+        {% else %}
+            <div style="background: rgba(18, 18, 18, 0.95); padding: 40px; text-align: center; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                <p style="color: #9ca3af; font-size: 1.1rem; margin-bottom: 20px;">Tu carrito está vacío actualmente.</p>
+                <a href="{{ url_for('tienda') }}" style="background: #a855f7; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600;">Ir a explorar la tienda</a>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

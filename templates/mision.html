@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+    <style>
+        /* Animaciones para las tarjetas de misión */
+        .mission-card {
+            background: rgba(18, 24, 38, 0.9);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.2);
+            background: rgba(22, 29, 46, 0.95);
+        }
+
+        .mission-card:hover .icon-box {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(168, 85, 247, 0.2);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body style="background-color: #0b0f19; color: #fff; font-family: 'Outfit', sans-serif; margin: 0; padding: 0;">
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(11, 15, 25, 0.95); border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative;">
+       <div class="logo-container">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 40px;">
+            </a>
+        </div>
+        
+        <!-- Menú superior centrado -->
+        <nav class="nav-links" style="position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 30px;">
+            <a href="{{ url_for('index') }}" style="color: #e5e6e9; text-decoration: none; font-weight: 500;">INICIO</a>
+            <a href="{{ url_for('quienes_somos') }}" style="color: #d9dce2; text-decoration: none; font-weight: 500;">QUIENES SOMOS</a>
+            <a href="{{ url_for('mision') }}" style="color: #e5e1e8; text-decoration: none; font-weight: 600;">MISION</a>
+        </nav>
+        
+        <div class="header-actions">
+            {% if usuario_activo %}
+                <a href="{{ url_for('perfil') }}" style="display: flex; align-items: center; gap: 10px; background: rgba(168, 85, 247, 0.15); padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(168, 85, 247, 0.3); text-decoration: none;">
+                    <i class="fa-solid fa-user-circle" style="font-size: 1.4rem; color: #a855f7;"></i>
+                    <span style="color: #fff; font-weight: 500; font-size: 0.95rem;">{{ usuario_activo }}</span>
+                </a>
+            {% else %}
+                <a href="{{ url_for('registro') }}" class="btn-primary" style="background: #a855f7; color: #fff; padding: 8px 16px; border-radius: 8px; text-decoration: none; margin-right: 10px;">REGISTRATE</a>
+                <a href="{{ url_for('login') }}" class="btn-profile" style="color: #fff; text-decoration: none; padding: 8px 16px;">INICIAR SESION</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL: MISIÓN -->
+    <main style="max-width: 1000px; margin: 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <span style="color: #a855f7; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Nuestro Propósito</span>
+            <h1 style="font-size: 3rem; margin-top: 10px; font-weight: 700;">Nuestra Misión</h1>
+            <p style="color: #eaedf1; font-size: 1.1rem; max-width: 600px; margin: 15px auto 0 auto;">Impulsar tu potencial físico y mental a través de tecnología, comunidad y disciplina constante.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px;">
+            <!-- Tarjeta 1 -->
+            <div class="mission-card">
+                <div class="icon-box" style="background: rgba(240, 239, 241, 0.1);">
+                    <i class="fa-solid fa-bolt" style="color: #a855f7; font-size: 1.3rem;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 12px; color: #fff;">Superación Constante</h3>
+                <p style="color: #9ca3af; line-height: 1.6; font-size: 0.95rem;">Proveer rutinas, retos y herramientas de seguimiento de alto rendimiento para que cada usuario supere sus propias metas día con día.</p>
+            </div>
+
+            <!-- Tarjeta 2 -->
+            <div class="mission-card">
+                <div class="icon-box" style="background: rgba(56, 189, 248, 0.1);">
+                    <i class="fa-solid fa-users" style="color: #38bdf8; font-size: 1.3rem;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 12px; color: #fff;">Comunidad Activa</h3>
+                <p style="color: #9ca3af; line-height: 1.6; font-size: 0.95rem;">Crear un espacio inclusivo y motivador donde miles de personas compartan su pasión por el fitness, la salud y el bienestar integral.</p>
+            </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="mission-card">
+                <div class="icon-box" style="background: rgba(34, 197, 94, 0.1);">
+                    <i class="fa-solid fa-chart-line" style="color: #22c55e; font-size: 1.3rem;"></i>
+                </div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 12px; color: #fff;">Innovación Digital</h3>
+                <p style="color: #9ca3af; line-height: 1.6; font-size: 0.95rem;">Facilitar el acceso a una gestión de entrenamiento moderna mediante interfaces intuitivas, rápidas y adaptadas a tus necesidades.</p>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

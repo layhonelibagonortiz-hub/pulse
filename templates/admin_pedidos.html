@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Gestión de Pedidos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- Barra Superior -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); background: rgba(18, 18, 18, 0.8);">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo" style="height: 60px;">
+            <!-- Botón para volver a la Matriz de Usuarios -->
+            <a href="{{ url_for('panel_admin') }}" style="background: rgba(168, 85, 247, 0.2); color: #a855f7; padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(168, 85, 247, 0.4); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                <i class="fa-solid fa-users"></i> Ver Usuarios
+            </a>
+        </div>
+        <div>
+            <a href="{{ url_for('logout') }}" style="background: #ef4444; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600;">Cerrar Sesión</a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+        <h1 style="font-size: 2rem; margin-bottom: 5px;">Gestión de Pedidos Global 🛠️</h1>
+        <p style="color: #9ca3af; margin-bottom: 30px;">Actualiza el estado o elimina las compras realizadas por los clientes.</p>
+
+        {% if pedidos %}
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                {% for p in pedidos %}
+                <div style="background: rgba(18, 18, 18, 0.95); padding: 20px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <span style="color: #a855f7; font-weight: 600; font-size: 1.1rem;">#{{ p.codigo }}</span>
+                        <p style="margin: 5px 0 0 0; color: #9ca3af; font-size: 0.85rem;">Cliente: <strong style="color: #fff;">{{ p.cliente }}</strong> • Fecha: {{ p.fecha }}</p>
+                        <p style="margin: 3px 0 0 0; color: #34d399; font-weight: 600; font-size: 0.9rem;">Total: ${{ p.total }} COP</p>
+                    </div>
+
+                    <!-- Contenedor para alinear los formularios de Acciones -->
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <!-- Formulario para cambiar el estado -->
+                        <form action="{{ url_for('actualizar_estado_pedido', id_pedido=p.id) }}" method="POST" style="display: flex; gap: 10px; align-items: center; margin: 0;">
+                            <select name="estado" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(168, 85, 247, 0.4); color: #fff; padding: 8px 12px; border-radius: 8px; outline: none; font-family: 'Outfit', sans-serif;">
+                                <option value="En preparación" {% if p.estado == 'En preparación' %}selected{% endif %}>En preparación</option>
+                                <option value="En camino" {% if p.estado == 'En camino' %}selected{% endif %}>En camino</option>
+                                <option value="Entregado" {% if p.estado == 'Entregado' %}selected{% endif %}>Entregado</option>
+                            </select>
+                            <button type="submit" style="background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);">Actualizar</button>
+                        </form>
+
+                        <!-- Formulario para Eliminar el pedido -->
+                        <form action="{{ url_for('admin_eliminar_pedido', codigo_pedido=p.codigo) }}" method="POST" style="margin: 0;">
+                            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar el pedido #{{ p.codigo }}?');" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s ease;">
+                                <i class="fa-solid fa-trash"></i> Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="background: rgba(18, 18, 18, 0.95); padding: 40px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.3); text-align: center;">
+                <p style="color: #9ca3af; font-size: 1.1rem;">No hay pedidos registrados en el sistema todavía.</p>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

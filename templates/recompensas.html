@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Recompensas - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+    <style>
+        .pulse-card {
+            background: rgba(20, 10, 30, 0.7);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .pulse-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+        }
+        .btn-neon {
+            background: linear-gradient(135deg, #a855f7, #9333ea);
+            color: white;
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-neon:hover {
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.7);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body style="background-color: #0d0614; min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+    
+    <!-- HEADER -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(168, 85, 247, 0.3); background: rgba(18, 10, 28, 0.85); backdrop-filter: blur(10px);">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" style="height: 50px; width: auto;">
+        </a>
+        <a href="{{ url_for('index') }}" class="btn-neon" style="font-size: 0.9rem; padding: 8px 16px;">
+            <i class="fa-solid fa-house"></i> Volver al Inicio
+        </a>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+        
+        <!-- Título -->
+        <div style="margin-bottom: 30px; text-align: center;">
+            <h1 style="font-size: 2.2rem; font-weight: 700; margin: 0 0 5px 0;">Club de Recompensas <span style="color: #a855f7;"><i class="fa-solid fa-gift"></i></span></h1>
+            <p style="color: #9ca3af; margin: 0;">Gana puntos por tu constancia diaria y cámbialos por productos exclusivos.</p>
+        </div>
+
+        <!-- Tarjeta de Saldo de Puntos -->
+        <div class="pulse-card" style="text-align: center; margin-bottom: 40px; box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);">
+            <h3 style="color: #9ca3af; margin: 0 0 10px 0; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Tus Pulse Coins Disponibles</h3>
+            <p style="font-size: 3rem; font-weight: 700; color: #a855f7; margin: 0;"><i class="fa-solid fa-coins"></i> {{ puntos }} PTS</p>
+        </div>
+
+        <!-- Mensajes Flash de Alerta (Éxito o Error) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div style="margin-bottom: 25px;">
+                    {% for category, message in messages %}
+                        {% if category == 'success' %}
+                            <div style="padding: 15px; border-radius: 12px; text-align: center; font-weight: 600; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399;">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div style="padding: 15px; border-radius: 12px; text-align: center; font-weight: 600; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171;">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Catálogo de Productos -->
+        <h2 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 20px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); padding-bottom: 10px;">
+            <i class="fa-solid fa-store" style="color: #a855f7; margin-right: 8px;"></i> Productos Disponibles para Canje
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            {% for producto in productos %}
+            <div class="pulse-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <!-- Contenedor visual con iconos limpios -->
+                    <div style="width: 100%; height: 130px; border: 1px dashed rgba(168, 85, 247, 0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; background: rgba(13, 6, 20, 0.5);">
+                        {% if 'proteina' in producto.nombre | lower %}
+                            <i class="fa-solid fa-bolt" style="font-size: 3rem; color: #f59e0b;"></i>
+                        {% elif 'creatina' in producto.nombre | lower %}
+                            <i class="fa-solid fa-fire" style="font-size: 3rem; color: #ef4444;"></i>
+                        {% elif 'camiseta' in producto.nombre | lower %}
+                            <i class="fa-solid fa-shirt" style="font-size: 3rem; color: #10b981;"></i>
+                        {% elif 'jogger' in producto.nombre | lower or 'pantalon' in producto.nombre | lower %}
+                            <i class="fa-solid fa-person-running" style="font-size: 3rem; color: #3b82f6;"></i>
+                        {% elif 'hoodie' in producto.nombre | lower or 'sudadera' in producto.nombre | lower %}
+                            <i class="fa-solid fa-vest" style="font-size: 3rem; color: #a855f7;"></i>
+                        {% else %}
+                            <i class="fa-solid fa-dumbbell" style="font-size: 3rem; color: #a855f7;"></i>
+                        {% endif %}
+                    </div>
+                    
+                    <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; color: #fff;">{{ producto.nombre }}</h3>
+                    <p style="color: #9ca3af; font-size: 0.9rem; margin: 0 0 15px 0;">{{ producto.descripcion }}</p>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <!-- Aquí dividimos el precio entre 1000 para mostrarlo reducido exclusivamente en la sección de canje -->
+                        <span style="color: #a855f7; font-weight: 700; font-size: 1.1rem;"><i class="fa-solid fa-tag"></i> {{ (producto.precio / 1000) | int }} PTS</span>
+                        <span style="color: #6b7280; font-size: 0.85rem;">Stock: {{ producto.stock }}</span>
+                    </div>
+                    <form action="{{ url_for('canjear_producto', producto_id=producto.id) }}" method="POST">
+                        <button type="submit" class="btn-neon" style="width: 100%;">
+                            <i class="fa-solid fa-ticket"></i> Canjear Producto
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #9ca3af;">
+                <i class="fa-solid fa-box-open" style="font-size: 2.5rem; margin-bottom: 10px; color: #a855f7;"></i>
+                <p>No hay productos disponibles para canje en este momento. ¡Agrega stock en la tabla <code>productos</code> desde phpMyAdmin!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto - PULSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="background-color: #0b0614; background-image: radial-gradient(circle at 50% 20%, #2b1055 0%, #0b0614 70%); min-height: 100vh; margin: 0; font-family: 'Outfit', sans-serif; color: #fff;">
+
+    <!-- Contenido Principal -->
+    <main style="max-width: 900px; margin: 60px auto; padding: 0 20px;">
+        
+        <!-- Enlace para volver -->
+        <a href="{{ url_for('tienda') }}" style="color: #a855f7; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-block; margin-bottom: 30px;">
+            ← Volver a la Tienda
+        </a>
+
+        <div style="background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(168, 85, 247, 0.3); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+            
+            <!-- Caja del Emoji Dinámico -->
+            <div style="flex: 1; min-width: 280px; height: 280px; background: rgba(10, 6, 20, 0.6); border: 1px dashed rgba(168, 85, 247, 0.4); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 6rem;">
+                    {% if producto[0] == 1 or 'Proteína' in producto[1] %}⚡
+                    {% elif producto[0] == 2 or 'Creatina' in producto[1] %}🔋
+                    {% elif producto[0] == 3 or 'Camiseta' in producto[1] %}👕
+                    {% else %}🧥
+                    {% endif %}
+                </span>
+            </div>
+
+            <!-- Información del Producto -->
+            <div style="flex: 1.2; min-width: 280px;">
+                <h1 style="font-size: 2.2rem; font-weight: 800; margin-top: 0; margin-bottom: 15px; color: #fff;">
+                    {{ producto[1] }}
+                </h1>
+                
+                <div style="font-size: 1.8rem; font-weight: 800; color: #a855f7; margin-bottom: 20px;">
+                    {% if producto[3] == 120000 or producto[3] == '120000.00' or producto[3] == 120000.00 %}
+                        $120.000
+                    {% elif producto[3] == 85000 or producto[3] == '85000.00' or producto[3] == 85000.00 %}
+                        $85.000
+                    {% elif producto[3] == 145000 or producto[3] == '145000.00' or producto[3] == 145000.00 %}
+                        $145.000
+                    {% else %}
+                        ${{ producto[3] }}
+                    {% endif %}
+                </div>
+
+                <p style="color: #9ca3af; font-size: 1rem; line-height: 1.6; margin-bottom: 25px;">
+                    {{ producto[2] }}
+                </p>
+
+                <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 30px;">
+                    Stock disponible: <strong style="color: #34d399;">15 unidades</strong>
+                </p>
+
+                <form action="{{ url_for('agregar_carrito', producto_id=producto[0]) }}" method="POST">
+                    <button type="submit" style="width: 100%; background: linear-gradient(90deg, #7e22ce, #a855f7); color: white; border: none; padding: 15px; border-radius: 25px; font-weight: 600; font-size: 1rem; cursor: pointer; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4); transition: all 0.3s ease;">
+                        Agregar al Carrito
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

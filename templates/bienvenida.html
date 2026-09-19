@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - PULSE</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Enlace al CSS estático -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="header">
+       <div class="logo-container">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='IMAGENES/logo.png') }}" alt="Logo Pulse" class="nav-logo">
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('quienes_somos') }}">QUIENES SOMOS</a>
+            <a href="{{ url_for('mision') }}">MISION</a>
+        </nav>
+        
+        <div class="header-actions">
+            {% if usuario_activo %}
+                <!-- Al hacer clic en el perfil, te lleva a la vista de perfil/CRUD -->
+                <a href="{{ url_for('perfil') }}" style="display: flex; align-items: center; gap: 10px; background: rgba(168, 85, 247, 0.15); padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(168, 85, 247, 0.3); text-decoration: none;">
+                    <i class="fa-solid fa-user-circle" style="font-size: 1.4rem; color: #a855f7;"></i>
+                    <span style="color: #fff; font-weight: 500; font-size: 0.95rem;">{{ usuario_activo }}</span>
+                </a>
+            {% else %}
+                <a href="{{ url_for('registro') }}" class="btn-primary">REGISTRATE</a>
+                <a href="{{ url_for('login') }}" class="btn-profile">INICIAR SESION</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- CONTENIDO: CUADRO DE BIENVENIDA -->
+    <main class="hero-section" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+        <div class="hero-content" style="max-width: 550px; width: 100%; text-align: center; margin: 0 auto; background: rgba(18, 18, 18, 0.9); padding: 50px 40px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.4); box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);">
+            
+            <div style="font-size: 3.5rem; color: #a855f7; margin-bottom: 20px;">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+
+            <span class="hero-subtitle">¡ACCESO EXITOSO!</span>
+            <h1 class="hero-title" style="font-size: 2.5rem; margin-bottom: 15px; color: #fff;">¡Hola, {{ nombre }}!</h1>
+            
+            <p class="hero-description" style="font-size: 1.05rem; line-height: 1.6; color: #9ca3af; margin-bottom: 30px;">
+                Bienvenido de nuevo a <strong style="color: #fff;">Pulse</strong>. Tu espacio de entrenamiento está listo. Prepárate para romper tus límites y alcanzar tus metas de hoy.
+            </p>
+
+            <div class="hero-buttons" style="justify-content: center; display: flex;">
+                <a href="{{ url_for('index') }}" class="btn-primary" style="padding: 12px 30px;">IR AL INICIO</a>
+            </div>
+            
+        </div>
+    </main>
+
+</body>
+</html>
